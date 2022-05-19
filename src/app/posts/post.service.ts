@@ -5,7 +5,7 @@ export class PostService {
 
 
   getPosts() {
-    // really important
+    // really important for copying the array
     return [...this.posts];
   }
 
