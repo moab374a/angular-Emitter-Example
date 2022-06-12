@@ -1,7 +1,7 @@
 import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
-import {map, Observable, Subject, Subscription} from "rxjs";
+import {map, Subject} from "rxjs";
 import {Post} from "./post.module";
 
 
@@ -43,4 +43,18 @@ export class PostService {
   getPostUpdateListener() {
     return this.getPosts();
   }
+
+  deletePost(id: string) {
+    return this.http.delete(`${this.backendApi}posts/${id}`)
+  }
+
+  getPost(id: string) {
+    return this.http.get<Post>(`${this.backendApi}posts/${id}`)
+  }
+
+  updatePost(updatedPost: Post) {
+    console.log(updatedPost)
+    return this.http.put<Post>(`${this.backendApi}posts/${updatedPost.id}`, updatedPost)
+  }
+
 }
