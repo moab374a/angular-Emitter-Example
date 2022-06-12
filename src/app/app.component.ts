@@ -10,10 +10,4 @@ export class AppComponent {
   title = 'angular-frontend';
 
 
-  storedPosts : Post [] = []
-
-  onPostAdded(post: Post){
-    this.storedPosts.push(post)
-  }
-
 }
