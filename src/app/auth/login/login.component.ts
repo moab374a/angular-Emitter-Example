@@ -11,9 +11,7 @@ class ngForm {
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  isLoading: false;
-
-
+  isLoading = false;
 
   constructor(public authService: AuthService) {
   }
@@ -23,6 +21,7 @@ export class LoginComponent implements OnInit {
 
   onLogin(loginForm: NgForm) {
    if(loginForm.invalid)return
+    this.isLoading = true
     this.authService.login(loginForm.value.email , loginForm.value.password)
   }
 }
