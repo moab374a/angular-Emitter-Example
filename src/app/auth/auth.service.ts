@@ -8,11 +8,17 @@ import {AuthData} from "./auth-data";
 })
 export class AuthService {
 
+  private token: string;
 
   backendApi = environment.backendApi
 
   constructor(private http: HttpClient) {
   }
+
+  get(){
+    return this.token;
+  }
+
 
   createUser(email: string, password: string) {
     const authData: AuthData = {email: email, password: password}
@@ -24,12 +30,12 @@ export class AuthService {
 
   login(email: string, password: string) {
     const authData: AuthData = {email: email, password: password}
-    return this.http.post(`${this.backendApi}user/login`, authData).subscribe(response => {
-      console.log(response)
+    return this.http.post<{ token: string }>(`${this.backendApi}user/login`, authData).subscribe(response => {
+      console.log(this.token)
+      this.token = response.token
     })
 
   }
-
 
 
 }

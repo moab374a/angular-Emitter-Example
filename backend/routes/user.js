@@ -27,7 +27,8 @@ router.post("/signup", (req, res) => {
 
 
 router.post("/login", (req, res) => {
- let fetchedUser ;
+  console.log("In Login Post")
+  let fetchedUser ;
   User.findOne({email: req.body.email}).then(user => {
     if (!user) {
       return res.status(401).json({message: "Auth Failed"})
@@ -40,10 +41,11 @@ router.post("/login", (req, res) => {
     }
     const token = jsonWebToken.sign(
       {email: fetchedUser.email , userId: fetchedUser._id} ,
-      'secret_this_should_be_longer' ,
+      "secret_this_should_be_longer" ,
       {expiresIn: "1h" }
       )
 
+    console.log("Everything went Fine")
     res.status(200).json({token:token})
 
   }).catch(error=> {
