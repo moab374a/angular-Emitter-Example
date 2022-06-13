@@ -15,7 +15,7 @@ import {MatExpansionModule} from "@angular/material/expansion";
 import {HttpClientModule} from "@angular/common/http";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatRadioModule} from "@angular/material/radio";
-
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -36,7 +36,8 @@ import {MatRadioModule} from "@angular/material/radio";
     MatExpansionModule,
     HttpClientModule,
     MatButtonToggleModule,
-    MatRadioModule
+    MatRadioModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
