@@ -29,22 +29,30 @@ const storage = multer.diskStorage({
   }
 });
 
-router.post("", multer({storage: storage}).single("image"), async (req, res, next) => {
+router.post("", multer({storage: storage}).single("image"),
+  async (req, res, next) => {
 
+    const url = req.protocol + '://' + req.get('host');
 
-  const post = new Post({
-    title: req.body.title,
-    content: req.body.content
-  })
+    const post = new Post({
+      title: req.body.title,
+      content: req.body.content,
+      imagePath: url + "/images/" + req.file.filename
+    })
 
-  let createdPost = await post.save();
+    let createdPost = await post.save();
 
-  res.status(201).json({
-    message: "Post added !",
-    postId: createdPost._id
-  })
+    res.status(201).json({
+      message: "Post added !",
+      post: {
+        id: createdPost._id,
+        title: createdPost.title,
+        content: createdPost.content,
+        imagePath: createdPost.imagePath
+      }
+    })
 
-});
+  });
 
 router.get("", (req, res, next) => {
 
@@ -78,7 +86,8 @@ router.get("/:id", async (req, res, next) => {
     return res.status(201).send({
       id: result._id,
       title: result.title,
-      content: result.content
+      content: result.content,
+      imagePath : result.imagePath
     })
 
   }).catch(err => {

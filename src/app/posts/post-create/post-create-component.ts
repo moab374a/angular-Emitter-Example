@@ -29,9 +29,11 @@ export class PostCreateComponent implements OnInit {
   getSinglePost(id: string) {
     this.postService.getPost(id).subscribe(response => {
       this.editPost = response
+      console.log(this.editPost)
       this.form.setValue({
         'title': this.editPost.title,
-        'content': this.editPost.content
+        'content': this.editPost.content,
+        'image': null
       })
     })
   }
@@ -63,8 +65,9 @@ export class PostCreateComponent implements OnInit {
 
     if (this.mode == 'create') {
       this.isLoading = true;
-      this.postService.addPost(this.form.value.title, this.form.value.content , this.form.value.image).subscribe((res: void) => {
-        console.log(res)
+      this.postService.addPost(this.form.value.title, this.form.value.content , this.form.value.image).subscribe((res) => {
+        console.log(res.message)
+        console.log(res.post)
         this.isLoading = false
       })
     } else {

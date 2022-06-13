@@ -21,7 +21,8 @@ export class PostService {
         return {
           title: post.title,
           content: post.content,
-          id: post._id
+          id: post._id ,
+          imagePath : post.imagePath
         }
       })
     }))
@@ -35,21 +36,10 @@ export class PostService {
     postData.append("image", image , title);
 
     console.log(title, content)
-    return this.http.post<void>(`${this.backendApi}posts`, postData)
+    return this.http.post<{ message: string , post: Post }>(`${this.backendApi}posts`, postData)
 
   }
 
-  updatePostUpdate() {
-    this.getPosts().subscribe(result => {
-      this.postsUpdated = result
-      console.log("Updated")
-    });
-
-  }
-
-  getPostUpdateListener() {
-    return this.getPosts();
-  }
 
   deletePost(id: string) {
     return this.http.delete(`${this.backendApi}posts/${id}`)
@@ -60,7 +50,6 @@ export class PostService {
   }
 
   updatePost(updatedPost: Post) {
-    console.log(updatedPost)
     return this.http.put<Post>(`${this.backendApi}posts/${updatedPost.id}`, updatedPost)
   }
 
