@@ -3,7 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {PostService} from "../post.service";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {Post} from "../post.module";
-import {mimeTypeValidator} from "./mime-type.validator";
+import {mimeType} from "./mime-type.validator";
 
 
 @Component({
@@ -40,7 +40,7 @@ export class PostCreateComponent implements OnInit {
     this.form = new FormGroup({
       'title': new FormControl(null, {validators: [Validators.required, Validators.minLength(3)]}),
       'content': new FormControl(null, {validators: [Validators.required]}),
-      'image' : new FormControl(null , {validators: [Validators.required] , asyncValidators : [mimeTypeValidator]})
+      'image' : new FormControl(null , {validators: [Validators.required] , asyncValidators : [mimeType]})
     })
 
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
@@ -63,7 +63,7 @@ export class PostCreateComponent implements OnInit {
 
     if (this.mode == 'create') {
       this.isLoading = true;
-      this.postService.addPost(this.form.value.title, this.form.value.content).subscribe((res: void) => {
+      this.postService.addPost(this.form.value.title, this.form.value.content , this.form.value.image).subscribe((res: void) => {
         console.log(res)
         this.isLoading = false
       })

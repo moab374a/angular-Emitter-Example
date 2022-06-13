@@ -27,9 +27,16 @@ export class PostService {
     }))
   }
 
-  addPost(title: string, content: string) {
+  addPost(title: string, content: string , image : File) {
+
+    const postData = new FormData();
+    postData.append("title", title);
+    postData.append("content", content);
+    postData.append("image", image , title);
+
     console.log(title, content)
-    return this.http.post<void>(`${this.backendApi}posts`, {title: title, content: content})
+    return this.http.post<void>(`${this.backendApi}posts`, postData)
+
   }
 
   updatePostUpdate() {
