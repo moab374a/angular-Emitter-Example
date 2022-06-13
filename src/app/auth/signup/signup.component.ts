@@ -20,4 +20,5 @@ export class SignupComponent implements OnInit {
     if(loginForm.invalid) return
     this.authService.createUser(loginForm.value.email ,loginForm.value.password)
   }
+
 }
