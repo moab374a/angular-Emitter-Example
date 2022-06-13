@@ -15,17 +15,25 @@ export class PostService {
   constructor(private http: HttpClient) {
   }
 
-  getPosts() {
-    return this.http.get<{ message: string; posts: any }>(`${this.backendApi}posts`).pipe(map(postData => {
-      return postData.posts.map(post => {
-        return {
-          title: post.title,
-          content: post.content,
-          id: post._id,
-          imagePath: post.imagePath
-        }
-      })
-    }))
+  getPosts(postPerPage: number, currentPage: number) {
+
+    const queryParams = `?pagesize=${postPerPage}&page=${currentPage}`;
+
+    return this.http.get<{ message: string; posts: any, moodiPosts: number }>(`${this.backendApi}posts` + queryParams)
+      .pipe(
+        map(postData => {
+          return {
+            posts: postData.posts.map(post => {
+              return {
+                title: post.title,
+                content: post.content,
+                id: post._id,
+                imagePath: post.imagePath
+              };
+            }),
+            moodiPosts: postData.moodiPosts
+          }
+        }))
   }
 
   addPost(title: string, content: string, image: File) {
