@@ -98,11 +98,17 @@ router.get("/:id", async (req, res, next) => {
 })
 
 
-router.put("/:id", (req, res, next) => {
+router.put("/:id", multer({storage: storage}).single("image" ), (req, res, next) => {
 
+  let imagePath = req.body.imagePath
+  if(req.file){
+    const url = req.protocol + '://' + req.get('host');
+    imagePath = url + "/images/" + req.file.filename
+  }
   Post.updateOne({_id: req.params.id}, {
     title: req.body.title,
-    content: req.body.content
+    content: req.body.content,
+    imagePath: imagePath
   }).then(
     (result) => {
       console.log(result)

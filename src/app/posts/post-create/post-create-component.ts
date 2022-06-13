@@ -33,7 +33,7 @@ export class PostCreateComponent implements OnInit {
       this.form.setValue({
         'title': this.editPost.title,
         'content': this.editPost.content,
-        'image': null
+        'image': this.editPost.imagePath
       })
     })
   }
@@ -73,6 +73,7 @@ export class PostCreateComponent implements OnInit {
     } else {
       this.editPost.content = this.form.value.content
       this.editPost.title = this.form.value.title
+      this.editPost.imagePath = this.form.value.image
       this.isLoading = true
       this.postService.updatePost(this.editPost).subscribe(response => {
         console.log(response)
@@ -80,7 +81,8 @@ export class PostCreateComponent implements OnInit {
       })
     }
     this.form.reset();
-    this.router.navigate(["/"])
+    this.router.navigate(["/"]).then(r => {
+      console.log(r)})
   }
 
   onImagePicked(event: Event) {

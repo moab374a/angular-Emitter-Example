@@ -21,22 +21,22 @@ export class PostService {
         return {
           title: post.title,
           content: post.content,
-          id: post._id ,
-          imagePath : post.imagePath
+          id: post._id,
+          imagePath: post.imagePath
         }
       })
     }))
   }
 
-  addPost(title: string, content: string , image : File) {
+  addPost(title: string, content: string, image: File) {
 
     const postData = new FormData();
     postData.append("title", title);
     postData.append("content", content);
-    postData.append("image", image , title);
+    postData.append("image", image, title);
 
     console.log(title, content)
-    return this.http.post<{ message: string , post: Post }>(`${this.backendApi}posts`, postData)
+    return this.http.post<{ message: string, post: Post }>(`${this.backendApi}posts`, postData)
 
   }
 
@@ -50,7 +50,24 @@ export class PostService {
   }
 
   updatePost(updatedPost: Post) {
-    return this.http.put<Post>(`${this.backendApi}posts/${updatedPost.id}`, updatedPost)
+    let postData: Post | FormData;
+
+    if (typeof updatedPost.imagePath === 'object') {
+      postData = new FormData();
+      postData.append("id", updatedPost.id)
+      postData.append("title", updatedPost.title)
+      postData.append("content", updatedPost.content)
+      postData.append("image", updatedPost.imagePath, updatedPost.title)
+
+    } else {
+      postData = {
+        id: updatedPost.id,
+        title: updatedPost.title,
+        content: updatedPost.content,
+        imagePath: updatedPost.imagePath
+      }
+    }
+    return this.http.put<Post>(`${this.backendApi}posts/${updatedPost.id}`, postData)
   }
 
 }
