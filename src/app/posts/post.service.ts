@@ -10,8 +10,6 @@ export class PostService {
 
   backendApi = environment.backendApi
 
-  private postsUpdated = new Subject<Post[]>();
-
   constructor(private http: HttpClient) {
   }
 
